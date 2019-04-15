@@ -1,7 +1,10 @@
 require('./config/config');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+//libreria para dar color en la linea de comandos
+const colors = require('colors');
 const port = process.env.PORT;
 
 //parse application/x-www-form-urlencoded
@@ -10,45 +13,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //parse application/json
 app.use(bodyParser.json())
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
-app.post('/usuario', (req, res) => {
-
-    let body = req.body;
-
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            msg: "El nombre es necesario."
-        })
+app.use(require('./routes/usuario'));
+//Conectarse a la Base de Datos tanto local como remota
+//mongodb+srv://gorydev:<password>@cluster0-vv9yi.mongodb.net/test
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
+    if (err) {
+        throw new Error(err);
     } else {
-
-        res.json({
-            persona: body
-        })
+        console.log('Conectado a la base de datos.'.underline.green);
     }
-})
+});
 
-app.put('/usuario/:id', (req, res) => {
-    let id = req.params.id;
-
-    res.json({
-        id,
-        msj: "Actualización"
-    })
-})
-
-app.delete('/usuario/:id', (req, res) => {
-    let id = req.params.id;
-
-    res.json({
-        id,
-        msj: "Eliminación"
-
-    })
-})
-
-app.listen(port, () => console.log(`App corriendo en el puerto: ${port} ...`))
+app.listen(port, () => console.log(`Servidor corriendo en el puerto: ${port}`.underline.white));
