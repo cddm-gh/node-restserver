@@ -36,3 +36,8 @@ process.env.SEED = process.env.SEED || 'seed-dev';
 //Duración del token  30 días
 //==============================================
 process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+//==============================================
+//ID Client Google Sign In
+//==============================================
+process.env.CLIENT_ID = process.env.CLIENT_ID || '937256517480-8voi0qdfal80otpmd8155erb9qnk1qmp.apps.googleusercontent.com';
