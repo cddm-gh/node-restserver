@@ -40,4 +40,4 @@ process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
 //==============================================
 //ID Client Google Sign In
 //==============================================
-process.env.CLIENT_ID = process.env.CLIENT_ID || '937256517480-8voi0qdfal80otpmd8155erb9qnk1qmp.apps.googleusercontent.com';
+process.env.CLIENT_ID = process.env.CLIENT_ID || '937256517480-15pk4vi8t9tcgb5m22gb71vpvhbhbg0n.apps.googleusercontent.com';
