@@ -4,11 +4,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 //Libreria underscore agrega funcionalidades para trabajar con Objetos
 const _ = require('underscore');
+const { verificaToken, verificaAdminRol } = require('../middlewares/autenticacion');
 const Usuario = require('../models/usuario');
 
 const app = express();
 
-app.get('/usuario', (req, res) => {
+app.get('/usuario', verificaToken, (req, res) => {
 
     let desde = req.query.desde || 0; //Desde que página quiere ver los resultados, si no escoje por defecto 0
     desde = Number(desde);
@@ -46,7 +47,7 @@ app.get('/usuario', (req, res) => {
         })
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdminRol], function(req, res) {
     //Recibimos los datos enviados
     let body = req.body;
     //Se crea un nuevo Objeto Usuario con los datos recibidos
@@ -77,7 +78,7 @@ app.post('/usuario', function(req, res) {
 });
 
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdminRol], function(req, res) {
 
     //El id se recibe como parámetro de la url
     let id = req.params.id;
@@ -102,7 +103,7 @@ app.put('/usuario/:id', function(req, res) {
 
 });
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRol], function(req, res) {
 
 
     let id = req.params.id;
@@ -111,7 +112,7 @@ app.delete('/usuario/:id', function(req, res) {
     }
 
     //Busca el usuario por id y actualiza su estado a false para hacer una eliminación lógica
-    Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
+    Usuario.findOneAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
         if (err) {
             return res.status(400).json({
                 ok: false,

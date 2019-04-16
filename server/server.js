@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //parse application/json
 app.use(bodyParser.json())
 
-app.use(require('./routes/usuario'));
+//Importar todas las rutas creadas
+app.use(require('./routes/index'));
+
 //Conectarse a la Base de Datos tanto local como remota
 //mongodb+srv://gorydev:<password>@cluster0-vv9yi.mongodb.net/test
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {

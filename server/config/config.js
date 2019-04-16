@@ -18,10 +18,21 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 let urlDB;
 let username = 'gorydev';
 let password = 'Darkgo13';
-
+//Si la variable de entorno NODE_ENV es 'dev' está en desarrollo
+//Se crea una variable de entorno MONGO_URI en heroku
 if (process.env.NODE_ENV === 'dev')
     urlDB = 'mongodb://localhost:27017/cafe'
 else
     urlDB = process.env.MONGO_URI;
 
 process.env.URLDB = urlDB;
+
+//==============================================
+//SEED para el token variable de entorno en heroku
+//==============================================
+process.env.SEED = process.env.SEED || 'seed-dev';
+
+//==============================================
+//Duración del token  30 días
+//==============================================
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
