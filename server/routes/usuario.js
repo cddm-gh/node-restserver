@@ -94,7 +94,11 @@ app.put('/usuario/:id', [verificaToken, verificaAdminRol], function(req, res) {
             });
         }
 
-        res.status(200).json({
+        if (!usuarioDB) {
+            return res.status(404).send({ ok: false, msg: `No se pudo actualizar el usuario` });
+        }
+
+        return res.send({
             ok: true,
             msg: "Usuario actualizado.",
             usuario: usuarioDB
